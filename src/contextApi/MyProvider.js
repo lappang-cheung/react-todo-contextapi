@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 
+// Create and export the context which includes consumer
 export const MyContext = React.createContext()
 
 class MyProvider extends Component{
 
+    // Defined the state and variables for the app
     state = {
         item: '',
         itemList: []
@@ -11,7 +13,9 @@ class MyProvider extends Component{
 
     render(){
         return(
+            // Create the provider
             <MyContext.Provider
+                // Set the values & methods
                 value = {{
                     state: this.state,
                     onChange: (event) => 
@@ -39,6 +43,7 @@ class MyProvider extends Component{
                     }
                 }}
             >
+                {/* Passing the children props into the App from global level */}
                 {this.props.children}
             </MyContext.Provider>
         )

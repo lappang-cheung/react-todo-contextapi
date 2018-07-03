@@ -8,6 +8,8 @@ There are four version of this application:
 
 ## Table of Contents
 - [Installation of App](#installation-of-app)
+- [Goal Of App](#goal-of-app)
+- [Create Context Api](#create-context-api)
 
 ## Installation of App
 
@@ -22,3 +24,64 @@ If failed to use yarn then use the following:
 
 * `npm run install`
 * `npm run start`
+
+## Goal Of App
+
+In order to learn the ReactJS Context API, recoded the previous Todo App tutorial 'https://github.com/lappang-cheung/react-todo/tree/no-storage'
+and using Context API to deal with the global state of the app.
+
+## Create Context Api
+
+Create a folder called "contextApi" and create a new filed called "MyProvider.js". Inside this file would contain the global state of the app and
+the methods used to add & remove task(s)
+
+MyProvider.js - contextAPI
+~~~~
+import React, {Component} from 'react'
+
+export const MyContext = React.createContext()
+
+class MyProvider extends Component{
+
+    state = {
+        item: '',
+        itemList: []
+    }
+
+    render(){
+        return(
+            <MyContext.Provider
+                value = {{
+                    state: this.state,
+                    onChange: (event) => 
+                        this.setState({
+                            item: event.target.value
+                        })
+                    ,
+                    onAddInput: () => {
+                            this.setState({
+                                item: '',
+                                itemList: [...this.state.itemList, this.state.item]
+                            })
+                        }
+                    ,
+                    onDelete: (item) => {
+                        let index = this.state.itemList.indexOf(item)
+                        
+
+                        if(index > -1){
+                            this.state.itemList.splice(index, 1)
+                            this.setState({
+                                itemList: this.state.itemList
+                            })
+                        }
+                    }
+                }}
+            >
+                {this.props.children}
+            </MyContext.Provider>
+        )
+    }
+}
+export default MyProvider
+~~~~
