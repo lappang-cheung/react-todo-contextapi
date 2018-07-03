@@ -5,7 +5,7 @@ import {MyContext} from '../contextApi/MyProvider'
 
 class TaskItem extends Component{
     
-
+    // Helper method to render the li items
     renderUI = (context) => {
         return context.state.itemList.map((item, index) => {
             return (
@@ -25,6 +25,7 @@ class TaskItem extends Component{
 
     render(){
         return (
+            // Consumer pass in for itemList
             <MyContext.Consumer>
                 {(context) => (
                     this.renderUI(context)

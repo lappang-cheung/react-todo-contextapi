@@ -10,6 +10,8 @@ There are four version of this application:
 - [Installation of App](#installation-of-app)
 - [Goal Of App](#goal-of-app)
 - [Create Context Api](#create-context-api)
+- [Create Task Components](#create-task-components)
+- [Add Provider into App.js](#add-provider-into-app.js)
 
 ## Installation of App
 
@@ -84,4 +86,151 @@ class MyProvider extends Component{
     }
 }
 export default MyProvider
+~~~~
+
+## Create Task Components
+
+Create a folder called components which the following files would exist:
+
+1. TaskAdd.js - to add the task
+2. TaskCounter.js - to count the task added and left
+3. TaskList.js - to display the tasks
+4. TaskView.js - to display individual tasks
+
+After the creation of the files, import the "MyProvider.js" into the files and implement the consumer for each individual component
+
+TaskAdd.js - components
+~~~~
+import React, { Fragment } from 'react'
+import { MyContext } from '../contextApi/MyProvider'
+
+const TaskAdd = () => {
+    return (
+        <div>
+            <MyContext.Consumer>
+                {(context) => (
+                    <Fragment>
+                        {/* Input for item */}
+                        <input
+                            value={context.state.item}
+                            onChange={context.onChange} 
+                        />
+                        {/* Add item */}
+                        <button onClick={context.onAddInput}>
+                            Add
+                        </button>
+                    </Fragment>
+                )}
+            </MyContext.Consumer>
+        </div>
+    )
+}
+
+export default TaskAdd
+~~~~
+
+TaskCounter.js - components
+~~~~
+import React from 'react'
+import {MyContext} from '../contextApi/MyProvider'
+
+const TaskCounter = () => {
+
+    return (
+        <MyContext.Consumer>
+            {(context) => (
+                <p>You have {context.state.itemList.length} task(s) left!!!</p>
+            )}
+        </MyContext.Consumer>
+    )
+}
+
+
+export default TaskCounter
+~~~~
+
+TaskList.js - components
+~~~~
+import React from 'react'
+import TaskItem from '../components/TaskItem'
+
+const TaskList = () => {
+
+    return(
+        <ul>
+            <TaskItem />
+        </ul>
+    )
+}
+
+
+export default TaskList
+~~~~
+
+TaskItem.js - components
+~~~~
+import React, {Component} from 'react'
+import {MyContext} from '../contextApi/MyProvider'
+
+class TaskItem extends Component{
+    
+
+    renderUI = (context) => {
+        return context.state.itemList.map((item, index) => {
+            return (
+                <li 
+                    key={index}
+                >
+                    <span>{item}</span>
+                    <button
+                        onClick={(e) => context.onDelete(item)}
+                    >
+                        Remove
+                    </button>
+                </li>
+                )
+            })
+        }
+
+    render(){
+        return (
+            <MyContext.Consumer>
+                {(context) => (
+                    this.renderUI(context)
+                )}
+            </MyContext.Consumer>
+        )    
+    }      
+}
+
+export default TaskItem
+~~~~
+
+## Add Provider into App.js
+
+Import Provider and add onto the highest level in the App.js
+
+App.js
+~~~~
+import React, { Component, Fragment } from 'react'
+
+import MyProvider from './contextApi/MyProvider'
+import TaskAdd from './components/TaskAdd'
+import TaskList from './components/TaskList'
+import TaskCounter from './components/TaskCounter'
+
+export default class App extends Component {
+    render() {
+        return (
+            <MyProvider>
+                <Fragment>
+                    <h1>Todo Context API</h1>
+                    <TaskAdd />
+                    <TaskCounter />
+                    <TaskList />
+                </Fragment>
+            </MyProvider>
+        )
+    }
+}
 ~~~~
