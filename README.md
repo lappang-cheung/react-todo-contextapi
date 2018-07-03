@@ -11,7 +11,7 @@ There are four version of this application:
 - [Goal Of App](#goal-of-app)
 - [Create Context Api](#create-context-api)
 - [Create Task Components](#create-task-components)
-- [Add Provider into App.js](#add-provider-into-app.js)
+- [Add Provider into App](#add-provider-into-app)
 
 ## Installation of App
 
@@ -206,7 +206,7 @@ class TaskItem extends Component{
 export default TaskItem
 ~~~~
 
-## Add Provider into App.js
+## Add Provider into App
 
 Import Provider and add onto the highest level in the App.js
 
